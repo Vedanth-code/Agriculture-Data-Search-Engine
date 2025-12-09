@@ -1,0 +1,263 @@
+.spinner {
+    display: inline-block;
+    vertical-align: middle;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #555;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+body {
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    min-height: 1vh;
+}
+
+/* ----------------------------------------
+    Nav Bar CSS
+---------------------------------------- */
+
+nav {
+    display: flex;
+    z-index: 5;
+    box-shadow: 0 -1px 180px rgba(0, 0, 0, 0.1);
+    background: white;
+
+}
+
+#nav-1 {
+    flex-basis: 30%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+#nav-2 {
+    flex-basis: 70%;
+    height: 100px;
+}
+
+.logo {
+    padding: 25px;
+}
+
+.nav-2-search {
+    height: 100%;
+    width: 100%;
+}
+
+/* ----------------------------------------
+    MAiN
+------------------------------------------- */
+
+
+main {
+    flex: 1;
+}
+
+/* Carousel CSS
+ ---------------------------------------- */
+
+#carousel-player {
+    height: 50vh;
+    width: 100%;
+    position: relative;
+    margin-top: 50px;
+
+}
+
+#carousel-player::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(180deg, transparent 0, rgba(0, 0, 0, .01) 1%, #000);
+}
+
+/* ------------------------------------------- */
+
+#carousel-player video {
+    position: absolute;
+    object-fit: cover;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+/* ------------------------------------------------- */
+.hero-text,
+.hero-caption {
+    position: absolute;
+
+    /* Include padding in size calculation */
+    box-sizing: border-box;
+
+    /* Align and match to parent's dimension */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+}
+
+.hero-caption {
+    background-color: transparent;
+    z-index: 3;
+}
+
+.hero-caption * {
+    color: aliceblue;
+    padding: 20px;
+    font-family: Open Sans, sans-serif;
+}
+
+/* List of Crops
+------------------------------------------------*/
+#multiplePage {
+    border: 2px solid black;
+    margin: 50px;
+    display: none;
+}
+
+#listOfCrops {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 50vh;
+    min-height: 90vh;
+    /* margin-top: 5vh; */
+    /* margin-bottom: 25vh; */
+    padding: 20px;
+    background-color: white;
+    position: relative;
+    z-index: 2;
+    overflow-y: auto;
+    /* ✅ Vertical scrollbar when needed */
+}
+
+.itemList {
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.itemList:hover {
+    transform: translateY(-5x);
+    box-shadow:     0 4px 38px rgba(0, 0, 0, 0.2);
+}
+
+.list2 {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* Pagination Widget Styles */
+#pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.pagination-btn {
+    padding: 10px 20px;
+    background-color: #116bac;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background-color: #0d5a94;
+}
+
+.pagination-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#page-numbers {
+    display: flex;
+    gap: 5px;
+}
+
+.page-number {
+    padding: 8px 12px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.page-number:hover {
+    background-color: #116bac;
+    color: white;
+}
+
+.page-number.active {
+    background-color: #116bac;
+    color: white;
+    font-weight: bold;
+}
+
+
+/* -----------------------------------------
+footer
+------------------------------------------ */
+
+.container {
+    margin: 0;
+    margin-top: 20px;
+    height: 30vh;
+    bottom: 0;
+    position: relative;
+    /* box-sizing: border-box; */
+    background-color: #116bac;
+}
+
+
+footer p,
+.nav-link {
+    color: #faf4f4 !important;
+}
+
+@media (min-width: 1200px) {
+
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl {
+        max-width: 100% !important;
+    }
+}
+
+@media (min-width: 992px) {
+
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm {
+        max-width: 100% !important;
+    }
+}

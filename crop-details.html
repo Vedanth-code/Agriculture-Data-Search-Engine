@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="./home.css">
+    <link rel="stylesheet" href="./crop-details.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <nav>
+        <div id="nav-1">
+            <img src="https://www.fao.org/images/corporatelibraries/logos/fao-logo-en.svg?sfvrsn=f64522b4_36"
+                title="Food and Agriculture Organization of the United Nations" data-displaymode="Original"
+                alt="Food and Agriculture Organization of the United Nations" class="logo">
+        </div>
+        <!-- <div id="nav-2">
+            <div class="d-flex align-items-center nav-2-search">
+
+
+            </div>
+        </div> -->
+    </nav>
+
+    <main id="mainContainer">
+        <div id="main-content">
+            <button class="back-btn">← Back to Results</button>
+
+
+            <div class="main-cont-1">
+                <div id="cont1">
+                    <h3 id="cropName">Crop Name: </h3>
+                </div>
+                <div id="cont2">
+                    <p id="doh">Days to Harvest: </p>
+                </div>
+                <div id="cont3">
+                    <p id="region">Region: </p>
+                </div>
+            </div>
+
+            <div class="main-cont-2">
+                <div id="cont4">
+                    <div id="mincont4-1">
+                        <p id="soil">Soil Type: </p>
+                    </div>
+                    <div id="mincont4-2">
+                        <div id="mincont4-2-1">
+                            <p id="fertilizer">Fertilizer: </p>
+                        </div>
+                        <div id="mincont4-2-2">
+                            <p id="irrigation">Irrigation: </p>
+                        </div>
+                    </div>
+                </div>
+                <div id="cont5">
+                    <p id="temperature">Temperature: </p>
+                    <p id="rainfall">Rainfall: </p>
+                    <p id="weather">Weather Condition: </p>
+                </div>
+            </div>
+            <div class="main-cont-3">
+                <div id="cont6">
+                    <p id="yeilds">Yeilds per ton</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="details-card">
+        <h2 id="cropTitle">Crop Details</h2>
+        <div id="cropDetails"></div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 ">© 2025 Company, Inc</p> <a href="/"
+                class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+                aria-label="Bootstrap"> <svg class="bi me-2" width="40" height="32" aria-hidden="true">
+                    <use xlink:href="#bootstrap"></use>
+                </svg> </a>
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="#" class="nav-link px-2 ">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 ">Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 ">Pricing</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 ">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 ">About</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <script type="module" src="./crop-details.js"></script>
+</body>
+
+</html>
