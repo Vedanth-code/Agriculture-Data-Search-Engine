@@ -1,0 +1,242 @@
+/* Theme Compatibility: Open Sans */
+/* @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap'); */
+
+/* Reset & Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    font-family: 'Open Sans', sans-serif;
+    /* Reverted to Theme Font */
+    overflow-x: hidden;
+    background-color: #f0f0f0;
+    /* Standard light bg behind the main container */
+}
+
+main {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+}
+
+/* Background Overlay */
+main::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%);
+}
+
+#mainContainer {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    transition: background-image 0.5s ease-in-out;
+}
+
+#main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    justify-content: flex-start;
+}
+
+/* Typography Base */
+#main-content * {
+    color: white;
+    letter-spacing: 0.5px;
+}
+
+h3 {
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 0;
+}
+
+p {
+    font-weight: 400;
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+/* Back Button - Theme Color */
+.back-btn {
+    cursor: pointer !important;
+    border: none;
+    color: white;
+    background-color: #116bac;
+    /* Theme Blue */
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    /* Theme border radius */
+    transition: all 0.3s ease;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn:hover {
+    background-color: #0d5a94;
+    /* Darker Theme Blue */
+    transform: translateY(-2px);
+}
+
+/* Common Container Styles (Glassmorphism) */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ------------------------------------------
+Main Layout Grid
+------------------------------------------- */
+
+/* Row 1: Basic Info */
+.main-cont-1 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+#cont1,
+#cont2,
+#cont3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 120px;
+}
+
+/* Row 2: Detailed Stats */
+.main-cont-2 {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    /* Soil vs Env Vars */
+    gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+    .main-cont-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Soil Section */
+#cont4 {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+#mincont4-1 {
+    /* Soil Type */
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Fertilizer & Irrigation Wrapper */
+#mincont4-2 {
+    display: flex;
+    gap: 1rem;
+}
+
+#mincont4-2-1,
+#mincont4-2-2 {
+    /* Fert / Irr boxes */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 100px;
+    background: rgba(0, 0, 0, 0.3);
+    /* Darker inner bg */
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#mincont4-2 div p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Env Vars Section */
+#cont5 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+#cont5 p {
+    font-size: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
+    padding-bottom: 0.5rem;
+}
+
+/* Row 3: Yields */
+.main-cont-3 {
+    display: flex;
+    justify-content: center;
+}
+
+#cont6 {
+    width: 100%;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+    max-width: 600px;
+    /* Added from HTML inline style to CSS for cleanness, though HTML had it inline */
+}
+
+#cont6 p {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffd700;
+    /* Gold accent for yield */
+}
+
+/* Utility to hide/show things */
+.details-card {
+    display: none;
+}
