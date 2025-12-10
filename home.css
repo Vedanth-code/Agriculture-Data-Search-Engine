@@ -155,7 +155,8 @@ main {
 
 .itemList:hover {
     transform: translateY(-5x);
-    box-shadow:     0 4px 38px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 38px #116bac;
+
 }
 
 .list2 {
