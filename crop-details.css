@@ -18,15 +18,17 @@ body {
 }
 
 nav {
-    height: 10vh;
-    /* Changed from 100px */
-    min-height: 80px;
+    height: 13vh !important;
+    min-height: 100px;
     position: relative;
     width: 100%;
     display: flex;
     align-items: center;
 }
-
+.logo{
+    padding: 0;
+    margin-left:4vw;
+}
 main {
     position: relative;
     width: 100%;
@@ -78,7 +80,7 @@ main::before {
 
 h3 {
     font-weight: 700;
-    font-size: clamp(1.2rem, 2vw, 2rem);
+    /* font-size: clamp(1.2rem, 2vw, 2rem); */
     /* Reduced */
     margin-bottom: 0;
 }

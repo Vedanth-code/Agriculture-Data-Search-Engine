@@ -12,7 +12,9 @@ window.onload = function () {
     }
 
     const cropData = Object.fromEntries(urlParams);
-
+cropData.Yield_tons_per_hectare = parseFloat(cropData.Yield_tons_per_hectare).toPrecision(4);
+    console.log("THe crop data is  ",cropData);
+    
     // Populate Data
     for (const [key, value] of Object.entries(cropDetails)) {
         const element = document.getElementById(key);
@@ -45,7 +47,7 @@ window.onload = function () {
             if (cropData[dataKey]) {
                 const label = element.textContent; // Keep original label
                 // Wrap value in span for styling
-                element.innerHTML = `<span class="label-text">${label}</span> <span class="value-text">${cropData[dataKey]}</span>`;
+                element.innerHTML = `<span class="label-text">${label}</span> <span class="value-text">${cropData[dataKey] + " " + value.metric}</span>`;
             }
         }
     }

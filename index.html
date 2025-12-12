@@ -45,8 +45,16 @@
             </div>
         </div>
     </nav>
-
     <main>
+        <form id="filterForm">
+            <select id="region-select" name="region">
+                <option value="">Choose a Region</option>
+                <option value="North">North</option>
+                <option value="East">East</option>
+                <option value="West">West</option>
+                <option value="South">South</option>
+            </select>
+        </form>
         <!-- Carousel -->
         <div id="carousel-player">
             <video class="hero-banner-video" loop="" autoplay="" muted="" playsinline="" preload="auto">
@@ -81,7 +89,9 @@
                 </button>
             </div>
 
-            <div id="listOfCrops"></div>
+            <div id="listOfCrops">
+
+            </div>
 
         </div>
 
@@ -105,7 +115,7 @@
         </footer>
     </div>
 
-    <script src="./index.js"></script>
+    <script type="module" src="./index.js"></script>
 
 </body>
 
