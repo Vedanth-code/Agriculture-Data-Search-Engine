@@ -1,26 +1,22 @@
-import { animateFavicon, stopLoading } from "./index.js";
+import { animateFavicon, stopLoading, fisherYatesShuffle } from "./utils.js";
 
 // Parse URL params
 const urlParams = new URLSearchParams(window.location.search);
 
 // Get the data
 let region = urlParams.get("region");
-
+let typesofCrops;
+let typeofSoil;
+let cropsData;
+let soilData;
+let tempData;
+let rainfallData;
+let yieldsData
+let FertilizerAndIrrigationData;
 
 console.log("the region is ", region);        // String, not array/object yet
 
-
-// Retrieve data from sessionStorage (Removed as per request)
-// const storedData = sessionStorage.getItem('regionData');
-// const rawData = storedData ? JSON.parse(storedData) : [];
-
-
-
-
 animateFavicon();
-
-
-
 
 fetchData(region);
 
@@ -33,7 +29,6 @@ async function fetchData(region) {
         console.log("The Region Data are:", regionData);
 
         redirectRegion(regionData);
-        console.log("heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
     } catch (error) {
         console.error("Search failed:", error);
     } finally {
@@ -54,7 +49,6 @@ async function fetchRegionData(region) {
                     chunkSize: 1024 * 1024,     //  Process 1Mb at a time
                     skipEmptyLines: true,  // ✅ Skip blank lines
                     comments: true,        // ✅ Skip comments
-                    // fastMode: true,        // ✅ Faster parsing
                     chunk: (chunkResults) => {
                         // ✅ Validate each row
                         const validRows = chunkResults.data.filter(row =>
@@ -75,14 +69,8 @@ async function fetchRegionData(region) {
             ).catch(reject);
     });
 }
-let typesofCrops;
-let typeofSoil;
-let cropsData;
-let soilData;
-let tempData;
-let rainfallData;
-let yieldsData
-let FertilizerAndIrrigationData;
+
+
 
 async function redirectRegion(regionData) {
 
@@ -119,17 +107,17 @@ async function redirectRegion(regionData) {
     let northtemp = regionData.map((item) => {
         return item.Temperature_Celsius;
     })
-    tempData = randomSample(northtemp, 10000);
+    tempData = fisherYatesShuffle(northtemp, 10000);
     console.log("THe temp is ", tempData);
     //#endregion
 
     //#region Calculate rainfall of the region
-    rainfallData = randomSample(regionData.map((item) => item.Rainfall_mm), 1000);
+    rainfallData = fisherYatesShuffle(regionData.map((item) => item.Rainfall_mm), 1000);
     console.log("The rainfall data is ", rainfallData);
     //#endregion
 
     //#region Calculate yields of the region
-    yieldsData = randomSample(regionData.map((item) => item.Yield_tons_per_hectare), 1000);
+    yieldsData = fisherYatesShuffle(regionData.map((item) => item.Yield_tons_per_hectare), 1000);
     console.log("The Yield data is ", yieldsData);
     //#endregion
 
@@ -159,30 +147,12 @@ async function redirectRegion(regionData) {
     renderCharts(rawData);
 }
 
-function randomSample(array, sampleSize) { //o(n) time complexity
-    let result = [];           // 1. Empty array to store selected samples
-    let used = new Set();      // 2. Track which indexes we've already used
 
-    // 3. Keep looping until we have enough samples
-    while (result.length < sampleSize && result.length < array.length) {
 
-        // 4. Generate random index
-        let randomIndex = Math.floor(Math.random() * array.length);
-
-        // 5. Check if we haven't used this index yet
-        if (!used.has(randomIndex)) {
-            result.push(array[randomIndex]);  // 6. Add value to result
-            used.add(randomIndex);            // 7. Mark index as used
-        }
-    }
-
-    return result;  // 8. Return the sampled array
-    // Get region name
-    const regionName = regionData.length > 0 ? regionData[0].Region : 'Unknown';
-    window.location.href = `region.html?region=${encodeURIComponent(regionName)}`;
+let regionName = document.getElementById('regionName');
+if (regionName) {
+    document.getElementById('regionName').textContent = `${region} Region Analysis`;
 }
-
-document.getElementById('regionName').textContent = `${region} Region Analysis`;
 
 function renderCharts(data) {
     const config = { displayModeBar: false, responsive: true };
@@ -253,16 +223,4 @@ function renderCharts(data) {
 
 }
 
-function getRandomSample(arr, size) {
-    const shuffled = arr.slice(0);
-    let i = arr.length;
-    let temp, index;
-    while (i--) {
-        index = Math.floor(Math.random() * (i + 1));
-        temp = shuffled[index];
-        shuffled[index] = shuffled[i];
-        shuffled[i] = temp;
-    }
-    return shuffled.slice(0, size);
-}
 

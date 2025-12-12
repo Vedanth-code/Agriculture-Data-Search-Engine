@@ -1,23 +1,4 @@
-let loadingAnimation;
-
-export function animateFavicon() {
-    let currentFrame = 1;
-    const favicon = document.querySelector("link[rel*='icon']");
-
-    loadingAnimation = setInterval(() => {
-        favicon.href = `./static/frame${currentFrame}.png`;
-        currentFrame = (currentFrame + 1) % 54;
-    }, 10); // Change frame every 100ms
-}
-
-// Stop animation and restore original favicon
-export function stopLoading() {
-    if (loadingAnimation) {
-        clearInterval(loadingAnimation);
-        loadingAnimation = null;
-    }
-    document.querySelector("link[rel*='icon']").href = './static/favicon.PNG';
-}
+import { animateFavicon, stopLoading } from "./utils.js";
 
 //Stores all data from the search
 const results = [];
@@ -51,6 +32,7 @@ function fetchCrop(InputCrop) {
                         resolve(results);  //  Returns data
                     },
                     error: reject
+
                 });
             }
             ).catch(reject);
@@ -264,6 +246,27 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 
+
+//Crop filter
+const cropSelect = document.querySelector('select[id="crop-select"]');
+if (cropSelect) {
+    cropSelect.addEventListener('change', async function (e) {
+        const crop = this.value;
+        console.log("The crop is ", crop);
+        if (!crop) return false;
+
+        try {
+            const params = new URLSearchParams();
+            params.append("crop", crop);
+
+            window.location.href = `crop_dashboard.html?${params.toString()}`;
+
+        } catch (error) {
+            console.error("Navigation failed:", error);
+        }
+        return false;
+    })
+}
 
 //Region filter
 const regionSelect = document.querySelector('select[id="region-select"]');
