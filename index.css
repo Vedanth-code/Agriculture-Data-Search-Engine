@@ -279,7 +279,8 @@ footer p,
     z-index: 100;
 }
 
-#region-select {
+#region-select,
+#crop-select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -305,18 +306,21 @@ footer p,
     background-size: 18px;
 }
 
-#region-select:hover {
+#region-select:hover,
+#crop-select:hover {
     background-color: rgba(255, 255, 255, 0.25);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
     transform: translateY(-2px);
     border-color: rgba(255, 255, 255, 0.6);
 }
 
-#region-select:focus {
+#region-select:focus,
+#crop-select:focus {
     box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
 }
 
-#region-select option {
+#region-select option,
+#crop-select option {
     background-color: #333;
     /* Fallback */
     background-color: rgba(30, 30, 30, 0.95);
