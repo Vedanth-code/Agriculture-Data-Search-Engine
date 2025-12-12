@@ -1,22 +1,21 @@
-function animateFavicon() {
+let loadingAnimation;
+
+export function animateFavicon() {
     let currentFrame = 1;
     const favicon = document.querySelector("link[rel*='icon']");
 
-    const animationInterval = setInterval(() => {
+    loadingAnimation = setInterval(() => {
         favicon.href = `./static/frame${currentFrame}.png`;
         currentFrame = (currentFrame + 1) % 54;
     }, 10); // Change frame every 100ms
-
-    // Return interval ID to stop animation later
-    return animationInterval;
 }
 
-
-let loadingAnimation;
-
 // Stop animation and restore original favicon
-function stopLoading() {
-    clearInterval(loadingAnimation);
+export function stopLoading() {
+    if (loadingAnimation) {
+        clearInterval(loadingAnimation);
+        loadingAnimation = null;
+    }
     document.querySelector("link[rel*='icon']").href = './static/favicon.PNG';
 }
 
@@ -32,7 +31,7 @@ function fetchCrop(InputCrop) {
                 Papa.parse(csv, {
                     header: true,
                     dynamicTyping: false,  //  FIX: No eval() needed
-                    chunkSize: 1024 * 1024,     //  Process 1000 rows at a time
+                    chunkSize: 1024 * 1024,     //  Process 1Mb at a time
                     skipEmptyLines: true,  // ✅ Skip blank lines
                     comments: true,        // ✅ Skip comments
                     // fastMode: true,        // ✅ Faster parsing
@@ -113,6 +112,15 @@ function displayCropList(cropData, page = 1) {
     updatePagination();
 }
 
+// Helper to update URL
+function updateUrlState(search, page) {
+    const url = new URL(window.location);
+    if (search) url.searchParams.set('search', search);
+    if (page) url.searchParams.set('page', page);
+    window.history.pushState({}, '', url);
+}
+
+// Update pagination button listeners
 function updatePagination() {
     const totalPages = Math.ceil(totalItems / itemsPerPage);
     const prevBtn = document.getElementById('prev-btn');
@@ -127,7 +135,6 @@ function updatePagination() {
     pageNumbersDiv.innerHTML = '';
 
     for (let i = 1; i <= totalPages; i++) {
-        // Show first, last, current, and nearby pages
         if (i === 1 || i === totalPages ||
             (i >= currentPage - 1 && i <= currentPage + 1)) {
 
@@ -140,12 +147,13 @@ function updatePagination() {
             }
 
             pageBtn.addEventListener('click', () => {
+                const search = new URLSearchParams(window.location.search).get('search');
+                updateUrlState(search, i);
                 displayCropList(allCropData, i);
             });
 
             pageNumbersDiv.appendChild(pageBtn);
         }
-        // Add ellipsis
         else if (i === currentPage - 2 || i === currentPage + 2) {
             const ellipsis = document.createElement('span');
             ellipsis.textContent = '...';
@@ -154,6 +162,7 @@ function updatePagination() {
         }
     }
 }
+
 
 //Navigate to crop-details page
 function viewCropDetails(index) {
@@ -168,42 +177,117 @@ function viewCropDetails(index) {
     // Redirect with URL parameters
     window.location.href = `crop-details.html?${params.toString()}`;
 }
+
+// Make globally available for HTML onclick
+window.viewCropDetails = viewCropDetails;
+
 // Previous button handler
-document.getElementById('prev-btn').addEventListener('click', () => {
-    if (currentPage > 1) {
-        displayCropList(allCropData, currentPage - 1);
-    }
-});
+const prevBtn = document.getElementById('prev-btn');
+if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            const newPage = currentPage - 1;
+            const search = new URLSearchParams(window.location.search).get('search');
+            updateUrlState(search, newPage);
+            displayCropList(allCropData, newPage);
+        }
+    });
+}
 
 // Next button handler
-document.getElementById('next-btn').addEventListener('click', () => {
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    if (currentPage < totalPages) {
-        displayCropList(allCropData, currentPage + 1);
+const nextBtn = document.getElementById('next-btn');
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        if (currentPage < totalPages) {
+            const newPage = currentPage + 1;
+            const search = new URLSearchParams(window.location.search).get('search');
+            updateUrlState(search, newPage);
+            displayCropList(allCropData, newPage);
+        }
+    });
+}
+
+//form submit
+const searchForm = document.querySelector('form[role="search"]');
+if (searchForm) {
+    searchForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        // Start animation
+        animateFavicon();
+
+        let InputCrop = this.querySelector('input[type="search"]').value;
+        console.log("THe INput crop is ", InputCrop);
+        if (!InputCrop || InputCrop == "") {
+            stopLoading();
+            window.location.href = "index.html";
+        };
+
+        // Update URL with search term (reset to page 1)
+        updateUrlState(InputCrop, 1);
+
+        try {
+            const cropData = await fetchCrop(InputCrop);
+            displayCropList(cropData, 1);
+            console.log("The results are:", cropData);
+
+        } catch (error) {
+            console.error("Search failed:", error);
+        } finally {
+            stopLoading();
+        }
+        return false;
+    })
+}
+
+// Initialize from URL on load
+window.addEventListener('DOMContentLoaded', async () => {
+    const params = new URLSearchParams(window.location.search);
+    const searchParam = params.get('search');
+    const pageParam = parseInt(params.get('page')) || 1;
+
+    const searchInput = document.querySelector('input[type="search"]');
+
+    if (searchParam && searchInput) {
+        searchInput.value = searchParam;
+        animateFavicon();
+        try {
+            const cropData = await fetchCrop(searchParam);
+            displayCropList(cropData, pageParam);
+        } catch (error) {
+            console.error("Search failed:", error);
+        } finally {
+            stopLoading();
+        }
     }
 });
 
-//form submit
-document.querySelector('form[role="search"]').addEventListener("submit", async function (e) {
-    // e.stopPropagation();
-    e.preventDefault();
 
-    // Start animation
-    loadingAnimation = animateFavicon();
 
-    let InputCrop = this.querySelector('input[type="search"]').value;
-    console.log("THe INput crop is ", InputCrop);
-    if (!InputCrop) return false;
+//Region filter
+const regionSelect = document.querySelector('select[id="region-select"]');
+if (regionSelect) {
+    regionSelect.addEventListener('change', async function (e) {
+        const region = this.value;
+        console.log("The region is ", region);
+        if (!region) return false;
 
-    try {
-        const cropData = await fetchCrop(InputCrop);  // Await results
-        displayCropList(cropData);
-        console.log("The results are:", cropData);
-    } catch (error) {
-        console.error("Search failed:", error);
-    } finally {
-        stopLoading(); //Stops loading
-    }
-    return false;
-})
+        try {
+            // const regionData = await fetchRegionData(region);  // Await results
+            // console.log("The Region Data are:", regionData);
+            const params = new URLSearchParams();
+            params.append("region", region);
 
+            window.location.href = `region.html?${params.toString()}`;
+
+            redirectRegion(regionData);
+
+        } catch (error) {
+            console.error("Search failed:", error);
+        } finally {
+            stopLoading(); //Stops loading
+        }
+        return false;
+    })
+}

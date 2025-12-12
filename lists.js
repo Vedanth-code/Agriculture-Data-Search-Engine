@@ -5,7 +5,7 @@ export const cropDetails = {
     },
     doh: {
         value: "Days_to_Harvest",
-        metric: "",
+        metric: "Days",
     },
     region: {
         value: "Region",
@@ -25,11 +25,11 @@ export const cropDetails = {
     },
     temperature: {
         value: "Temperature_Celsius",
-        metric: "",
+        metric: "°C",
     },
     rainfall: {
         value: "Rainfall_mm",
-        metric: "",
+        metric: "mm",
     },
     weather: {
         value: "Weather_Condition",
@@ -37,7 +37,7 @@ export const cropDetails = {
     },
     yeilds: {
         value: "Yield_tons_per_hectare",
-        metric: "",
+        metric: "Tons/Hectare",
     },
 }
 

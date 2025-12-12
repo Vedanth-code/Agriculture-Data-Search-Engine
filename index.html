@@ -7,7 +7,7 @@
     <title> Agriculture Data Search Engine</title>
 
     <link rel="icon" type="image/png" href="./static/favicon.PNG">
-    <link rel="stylesheet" href="./home.css">
+    <link rel="stylesheet" href="./index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
@@ -45,8 +45,16 @@
             </div>
         </div>
     </nav>
-
     <main>
+        <form id="filterForm">
+            <select id="region-select" name="region">
+                <option value="">Choose a Region</option>
+                <option value="North">North</option>
+                <option value="East">East</option>
+                <option value="West">West</option>
+                <option value="South">South</option>
+            </select>
+        </form>
         <!-- Carousel -->
         <div id="carousel-player">
             <video class="hero-banner-video" loop="" autoplay="" muted="" playsinline="" preload="auto">
@@ -81,10 +89,12 @@
                 </button>
             </div>
 
-            <div id="listOfCrops"></div>
+            <div id="listOfCrops">
+
+            </div>
 
         </div>
-    
+
     </main>
 
     <!-- Footer -->
@@ -105,7 +115,7 @@
         </footer>
     </div>
 
-    <script src="./home.js"></script>
+    <script type="module" src="./index.js"></script>
 
 </body>
 

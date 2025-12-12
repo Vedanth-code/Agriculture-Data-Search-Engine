@@ -1,0 +1,167 @@
+/* Inheriting some basics from global if needed, but defining specific dashboard styles here */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Back Button Styles */
+.back-btn {
+    cursor: pointer;
+    border: none;
+    color: white;
+    background-color: #116bac;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.back-btn:hover {
+    background-color: #0d5a94;
+    transform: translateY(-2px);
+}
+
+
+/* Nav fixes to match index.html logic */
+nav {
+    height: 100px;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+    position: relative;
+    padding: 0 2rem;
+}
+
+
+
+/* Main Dashboard Layout */
+#dashboardMain {
+    flex: 1;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    position: relative;
+}
+
+.dashboard-container {
+    /* max-width: 1400px; */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Glassmorphism Panels */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.85);
+    /* Slightly more opaque for readability of charts */
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    padding: 1.5rem;
+    transition: transform 0.2s;
+}
+
+.glass-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+}
+
+/* Header */
+.region-header {
+    text-align: center;
+    border-left: 5px solid #116bac;
+}
+
+.region-header h1 {
+    color: #116bac;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.region-header p {
+    color: #666;
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Charts Grid */
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2vw;
+    max-width: 100%;
+    /* Critical for preventing overflow */
+}
+
+.chart-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    /* Fallback */
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.chart-box h3 {
+    width: 100%;
+    text-align: left;
+    font-size: 1.25rem;
+    color: #333;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+    min-height: 450px;
+    /* Taller for Box Plot */
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Footer Fixes */
+.footer-container {
+    background-color: #116bac;
+    width: 100%;
+    max-width: 100% !important;
+    margin-top: auto;
+}
+
+/* Plotly overrides if needed */
+.js-plotly-plot .plotly .modebar {
+    display: none;
+    /* Hide toolbar for cleaner look, optional */
+}
