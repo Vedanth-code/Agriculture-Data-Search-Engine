@@ -179,7 +179,7 @@ function tempRangeGraph(data, baseLayout, config) {
     Plotly.newPlot('tempBoxPlot', [{ y: temps, type: 'box', name: 'Temperature', marker: { color: '#ff9f43' } }], layoutBox, config);
 }
 
-function rainfallYieldGraph( baseLayout, config) {
+function rainfallYieldGraph(baseLayout, config) {
     const sampleData = { rainfall: rainfallData, yield: yieldsData };
     console.log("THe sample data is ", sampleData);
 
@@ -197,7 +197,7 @@ function rainfallYieldGraph( baseLayout, config) {
     }], layoutScatter, config);
 }
 
-function soilTypeGraph( baseLayout, config) {
+function soilTypeGraph(baseLayout, config) {
     const soilTypes = {};
     // data.forEach(d => { const type = d.Soil_Type || 'Unknown'; soilTypes[type] = (soilTypes[type] || 0) + 1; });
     const layoutPie = { ...baseLayout, height: 280, showlegend: true, margin: { t: 20, b: 20, l: 20, r: 20 } };
@@ -209,6 +209,14 @@ function soilTypeGraph( baseLayout, config) {
             colors: ['#4bc0c0', '#ffcd56', '#ff9f43', '#ff6384', '#36a2eb']
         }
     }], layoutPie, config);
+}
+
+function farmPracticeGraph(baseLayout, config) {
+    const layoutStack = { ...baseLayout, height: 450, barmode: 'group', yaxis: { title: 'Count', automargin: true, range: [124000, 125500], dtick: 100 }, legend: { orientation: 'h', y: 1.1 }, xaxis: { automargin: true } };
+    Plotly.newPlot('practicesBarChart', [
+        { x: ['Fertilizer', 'Irrigation'], y: [FertilizerAndIrrigationData.Fertilizer.yes, FertilizerAndIrrigationData.Irrigation.yes], name: 'Used', type: 'bar', marker: { color: '#28a745' } },
+        { x: ['Fertilizer', 'Irrigation'], y: [FertilizerAndIrrigationData.Fertilizer.no, FertilizerAndIrrigationData.Irrigation.no], name: 'Not Used', type: 'bar', marker: { color: '#dc3545' } }
+    ], layoutStack, config);
 }
 function renderCharts(data) {
     const config = { displayModeBar: false, responsive: true };
@@ -224,19 +232,12 @@ function renderCharts(data) {
 
     tempRangeGraph(data, baseLayout, config);
 
-    rainfallYieldGraph( baseLayout, config)
+    rainfallYieldGraph(baseLayout, config)
 
-    soilTypeGraph( baseLayout, config)
- 
+    soilTypeGraph(baseLayout, config);
 
-    //#region --- 5. Farming Practices (Stacked Bar) ---
-
-    const layoutStack = { ...baseLayout, height: 450, barmode: 'group', yaxis: { title: 'Count', automargin: true, range: [124000, 125500], dtick: 100 }, legend: { orientation: 'h', y: 1.1 }, xaxis: { automargin: true } };
-    Plotly.newPlot('practicesBarChart', [
-        { x: ['Fertilizer', 'Irrigation'], y: [FertilizerAndIrrigationData.Fertilizer.yes, FertilizerAndIrrigationData.Irrigation.yes], name: 'Used', type: 'bar', marker: { color: '#28a745' } },
-        { x: ['Fertilizer', 'Irrigation'], y: [FertilizerAndIrrigationData.Fertilizer.no, FertilizerAndIrrigationData.Irrigation.no], name: 'Not Used', type: 'bar', marker: { color: '#dc3545' } }
-    ], layoutStack, config);
-    //#endregion
+    farmPracticeGraph(baseLayout, config);
+    
 
 }
 

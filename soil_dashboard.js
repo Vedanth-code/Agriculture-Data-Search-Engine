@@ -147,7 +147,6 @@ function irrigationImpactGraph(data, baseLayout, config) {
     Plotly.newPlot('irrigationImpactChart', [irrTrace], irrLayout, config);
 }
 
-
 function tempPerYieldGraph(data, baseLayout, config) {
     const shuffledData = fisherYatesShuffle([...data], Math.min(data.length, 10000));
 
