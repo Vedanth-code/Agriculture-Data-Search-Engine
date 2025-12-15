@@ -247,6 +247,27 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 
 
+//Soil filter
+const soilSelect = document.querySelector('select[id="soil-select"]');
+if (soilSelect) {
+    soilSelect.addEventListener('change', async function (e) {
+        const soil = this.value;
+        console.log("The soil is ", soil);
+        if (!soil) return false;
+
+        try {
+            const params = new URLSearchParams();
+            params.append("soil", soil);
+
+            window.location.href = `soil_dashboard.html?${params.toString()}`;
+
+        } catch (error) {
+            console.error("Navigation failed:", error);
+        }
+        return false;
+    })
+}
+
 //Crop filter
 const cropSelect = document.querySelector('select[id="crop-select"]');
 if (cropSelect) {
