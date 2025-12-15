@@ -1,22 +1,23 @@
 import { animateFavicon, stopLoading, fisherYatesShuffle } from "./utils.js";
+
 // Parse URL params
 const urlParams = new URLSearchParams(window.location.search);
-const crop = urlParams.get('crop');
+const soil = urlParams.get('soil');
 
-console.log("the crop is ", crop);
+console.log("the soil is ", soil);
 
-if (!crop) {
-    alert("No crop selected!");
+if (!soil) {
+    alert("No soil selected!");
     window.location.href = "index.html";
 }
 
-document.getElementById('cropName').textContent = `${crop} Analysis`;
+document.getElementById('soilName').textContent = `${soil} Soil Analysis`;
 
 animateFavicon();
-fetchData(crop);
+fetchData(soil);
 
-async function fetchData(crop) {
-    console.log("Fetching data for crop: ", crop);
+async function fetchData(soil) {
+    console.log("Fetching data for soil: ", soil);
 
     const data = await new Promise((resolve, reject) => {
         Papa.parse("https://raw.githubusercontent.com/Vedanth-code/Agriculture-Data-Search-Engine/master/crop_yield.csv", {
@@ -32,51 +33,74 @@ async function fetchData(crop) {
         });
     });
 
-    // Filter by crop
-    const cropData = data.filter(row => row.Crop === crop);
-    console.log("Filtered Data: ", cropData);
+    // Filter by soil
+    const soilData = data.filter(row => row.Soil_Type === soil);
+    console.log("Filtered Data: ", soilData);
 
-    renderCharts(cropData);
+    renderCharts(soilData);
     stopLoading();
 }
 
-function regionalDistributionGraph(data, baseLayout, config) {
+function regionCompositionGraph(data, baseLayout, config) {
     const regions = {};
     data.forEach(d => {
         const region = d.Region || 'Unknown';
         regions[region] = (regions[region] || 0) + 1;
     });
 
-    const pieLayout = { ...baseLayout, height: 350 };
-    Plotly.newPlot('regionPieChart', [{
-        labels: Object.keys(regions),
-        values: Object.values(regions),
-        type: 'pie',
-        marker: { colors: ['#4bc0c0', '#ffcd56', '#ff9f43', '#ff6384', '#36a2eb'] }
-    }], pieLayout, config);
+    const regionTrace = {
+        x: Object.keys(regions),
+        y: Object.values(regions),
+        type: 'bar',
+        marker: { color: '#36a2eb' }
+    };
+
+    const regionLayout = {
+        ...baseLayout,
+        title: 'Regional Distribution',
+        yaxis: {
+            title: 'Record Count',
+            range: [41000, 42000],           //  Force range from 4.0 to 5.0
+            dtick: 100,                  //  Tick every 0.1 (4.0, 4.1, 4.2, ...)
+            tick0: 41000                   //  Start ticks at 4.0 }
+        }
+    }
+        ;
+    Plotly.newPlot('regionBarChart', [regionTrace], regionLayout, config);
 }
 
-function tempYieldGraph(data, baseLayout, config) {
-    const shuffledData = fisherYatesShuffle([...data], Math.min(data.length, 10000));
+function yieldByCropGraph(data, baseLayout, config) {
+    const crops = {};
+    data.forEach(d => {
+        const crop = d.Crop;
+        if (!crops[crop]) crops[crop] = [];
+        crops[crop].push(d.Yield_tons_per_hectare);
+    });
 
-    const temps = shuffledData.map(d => d.Temperature_Celsius);
-    const yields = shuffledData.map(d => d.Yield_tons_per_hectare);
+    const cropNames = Object.keys(crops);
+    const avgYields = cropNames.map(c => {
+        const sum = crops[c].reduce((a, b) => a + b, 0);
+        return sum / crops[c].length;
+    });
 
-    const scatterTrace = {
-        x: temps,
-        y: yields,
-        mode: 'markers',
-        type: 'scatter',
-        marker: { size: 8, color: '#ffcd56' }
+    const cropYieldTrace = {
+        x: cropNames,
+        y: avgYields,
+        type: 'bar',
+        marker: { color: '#4bc0c0' }
     };
 
-    const scatterLayout = {
+    const cropYieldLayout = {
         ...baseLayout,
-        title: 'Temperature vs Yield',
-        xaxis: { title: 'Temperature (°C)', gridcolor: '#e0e0e0' },
-        yaxis: { title: 'Yield (tons/ha)', gridcolor: '#e0e0e0' }
+        title: 'Average Yield by Crop',
+        yaxis: {
+            title: 'Avg Yield (tons/ha)',
+            range: [4.6, 4.7],           //  Force range from 4.0 to 5.0
+            dtick: 0.01,                  //  Tick every 0.1 (4.0, 4.1, 4.2, ...)
+            tick0: 4.6                   //  Start ticks at 4.0
+        }
     };
-    Plotly.newPlot('tempYieldScatter', [scatterTrace], scatterLayout, config);
+    Plotly.newPlot('soilCropYieldChart', [cropYieldTrace], cropYieldLayout, config);
 }
 
 function fertilizerImpactGraph(data, baseLayout, config) {
@@ -122,6 +146,30 @@ function irrigationImpactGraph(data, baseLayout, config) {
     };
     Plotly.newPlot('irrigationImpactChart', [irrTrace], irrLayout, config);
 }
+
+function tempPerYieldGraph(data, baseLayout, config) {
+    const shuffledData = fisherYatesShuffle([...data], Math.min(data.length, 10000));
+
+    const temps = shuffledData.map(d => d.Temperature_Celsius);
+    const yields = shuffledData.map(d => d.Yield_tons_per_hectare);
+
+    const scatterTrace = {
+        x: temps,
+        y: yields,
+        mode: 'markers',
+        type: 'scatter',
+        marker: { size: 8, color: '#ffcd56' }
+    };
+
+    const scatterLayout = {
+        ...baseLayout,
+        title: 'Temperature vs Yield',
+        xaxis: { title: 'Temperature (°C)', gridcolor: '#e0e0e0' },
+        yaxis: { title: 'Yield (tons/ha)', gridcolor: '#e0e0e0' }
+    };
+    Plotly.newPlot('tempYieldScatter', [scatterTrace], scatterLayout, config);
+}
+
 function renderCharts(data) {
     const config = { displayModeBar: false, responsive: true };
     const baseLayout = {
@@ -133,12 +181,14 @@ function renderCharts(data) {
         yaxis: { gridcolor: '#e0e0e0' }
     };
 
-    regionalDistributionGraph(data, baseLayout, config);
+    regionCompositionGraph(data, baseLayout, config);
 
-    tempYieldGraph(data, baseLayout, config);
+    yieldByCropGraph(data, baseLayout, config);
+
+    tempPerYieldGraph(data, baseLayout, config);
 
     fertilizerImpactGraph(data, baseLayout, config);
 
-    irrigationImpactGraph(data, baseLayout, config);
+    irrigationImpactGraph(data, baseLayout, config)
 
 }

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soil Dashboard</title>
+
+    <link rel="icon" type="image/png" href="./static/favicon.PNG">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./index.css">
+    <!-- Reuse region styles -->
+    <link rel="stylesheet" href="./region.css">
+</head>
+
+<body>
+    <!-- Header (Copied from index.html) -->
+    <nav>
+        <div id="nav-1">
+            <img src="https://www.fao.org/images/corporatelibraries/logos/fao-logo-en.svg?sfvrsn=f64522b4_36"
+                title="Food and Agriculture Organization of the United Nations" data-displaymode="Original"
+                alt="Food and Agriculture Organization of the United Nations" class="logo">
+        </div>
+        <div id="nav-2">
+            <!-- Navbar content cleared as requested -->
+        </div>
+    </nav>
+
+    <main id="dashboardMain">
+        <div class="container-fluid dashboard-container">
+            <!-- Back Button -->
+            <button class="back-btn" onclick="window.location.href='/'">
+                <i class="fas fa-arrow-left me-2"></i> Back to Home
+            </button>
+
+            <!-- Header Section -->
+            <header class="region-header glass-panel">
+                <h1 id="soilName">Soil Analysis</h1>
+                <p>Soil Type Specific Agricultural Insights</p>
+            </header>
+
+            <!-- Charts Grid -->
+            <div class="charts-grid">
+                <!-- Row 1 -->
+                <div class="chart-box glass-panel full-width">
+                    <h3>Regional Distribution of Soil (Record Count)</h3>
+                    <div id="regionBarChart"></div>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="chart-box glass-panel full-width">
+                    <h3>Average Yield by Crop for this Soil</h3>
+                    <div id="soilCropYieldChart"></div>
+                </div>
+
+                <!-- Row 3 -->
+                  <div class="chart-box glass-panel">
+                    <h3>Irrigation Impact on Yield</h3>
+                    <div id="irrigationImpactChart"></div>
+                </div>
+
+                <div class="chart-box glass-panel">
+                    <h3>Fertilizer Impact on Yield</h3>
+                    <div id="fertImpactChart"></div>
+                </div>
+
+                <!-- Row 4 -->
+                <div class="chart-box glass-panel">
+                    <h3>Temperature vs Yield</h3>
+                    <div id="tempYieldScatter"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer (Copied from index.html) -->
+    <div class="container footer-container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-white">© 2025 Company, Inc</p>
+
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="/" class="nav-link px-2 text-white">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-white">Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-white">About</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./soil_dashboard.js"></script>
+</body>
+
+</html>
